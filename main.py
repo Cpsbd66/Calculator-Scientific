@@ -1,172 +1,111 @@
 from tkinter import *
-import tkinter.messagebox as msg
-import time
+
+first_number=second_number=operator=None
+
+def get_digit(digit):
+    current = result_label['text']
+    new = current + str(digit)
+    result_label.config(text=new)
+
+def clear():
+    result_label.config(text='')
+
+def get_operator(op):
+    global first_number,operator
+
+    first_number = int(result_label['text'])
+    operator = op
+    result_label.config(text='')
+
+def get_result():
+    global first_number,second_number,operator
+
+    second_number = int(result_label['text'])
+
+    if operator == '+':
+        result_label.config(text=str(first_number+second_number))
+    elif operator == '-':
+        result_label.config(text=str(first_number - second_number))
+    elif operator == '*':
+        result_label.config(text=str(first_number * second_number))
+    else:
+        if second_number == 0:
+            result_label.config(text='Error')
+        else:
+            result_label.config(text=str(round(first_number / second_number,2)))
 
 root = Tk()
-root.geometry("400x400")
-root.wm_maxsize(400,400)
-root.wm_minsize(400,400)
-root.title("Simple Calculator")
-root.wm_iconbitmap("download-_2_.ico")
+root.title('Calculator')
+root.geometry('280x380')
+root.resizable(0,0)
+root.configure(background='black')
 
-#Click function for button 9,8,7
-def click(event):
-    print("hello")
-    global Scvalue
-    text = event.widget.cget("text")#Way to bring out the text from the buttom
-    print(text)
-    if text == "=":
-        if Scvalue.get().isdigit():
-            value = int(Scvalue.get())
-        else:
-            try:
-                value = eval(screen.get())
-            except Exception as error:
-                print(error)
-                value = "Error"
-                time.sleep(1)
-                value = ""
-                Scvalue.set(value)
+result_label = Label(root,text='',bg='black',fg='white')
+result_label.grid(row=0,column=0,columnspan=5,pady=(50,25),sticky='w')
+result_label.config(font=('verdana',30,'bold'))
 
-        Scvalue.set(value)
-        screen.update()
+btn7 = Button(root,text='7',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(7))
+btn7.grid(row=1,column=0)
+btn7.config(font=('verdana',14))
 
-    elif text == "C":
-        Scvalue.set("None")
-        screen.update()
-    elif text =="X":
-        val = str(Scvalue.get())
-        Scvalue.set(val[:-1])
-        screen.update()
+btn8 = Button(root,text='8',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(8))
+btn8.grid(row=1,column=1)
+btn8.config(font=('verdana',14))
 
+btn9 = Button(root,text='9',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(9))
+btn9.grid(row=1,column=2)
+btn9.config(font=('verdana',14))
 
-    else:
+btn_add = Button(root,text='+',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_operator('+'))
+btn_add.grid(row=1,column=3)
+btn_add.config(font=('verdana',14))
 
-        Scvalue.set(Scvalue.get() + text)
-        screen.update()
+btn4 = Button(root,text='4',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(4))
+btn4.grid(row=2,column=0)
+btn4.config(font=('verdana',14))
 
+btn5 = Button(root,text='5',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(5))
+btn5.grid(row=2,column=1)
+btn5.config(font=('verdana',14))
 
+btn6 = Button(root,text='6',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(6))
+btn6.grid(row=2,column=2)
+btn6.config(font=('verdana',14))
 
-#Making the screen for displaying the digits
-Scvalue = StringVar()
-Scvalue.set("")
-# border_color = Frame(root, background="red")
-screen = Entry(root, highlightthickness=5,textvar = Scvalue , font = "lucida 40 bold")
-screen.pack(fill="x", ipadx=10, ipady=10)
+btn_sub = Button(root,text='-',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_operator('-'))
+btn_sub.grid(row=2,column=3)
+btn_sub.config(font=('verdana',14))
 
+btn1 = Button(root,text='1',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(1))
+btn1.grid(row=3,column=0)
+btn1.config(font=('verdana',14))
 
-#Making frames for buttons
-Frame1 = Frame(root, bg = "grey")
-b = Button(Frame1, padx =55, pady = 5,text="9", font = "lucida 10 bold", bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
+btn2 = Button(root,text='2',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(2))
+btn2.grid(row=3,column=1)
+btn2.config(font=('verdana',14))
 
-b = Button(Frame1, padx = 55, pady = 5,text="8", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
+btn3 = Button(root,text='3',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(3))
+btn3.grid(row=3,column=2)
+btn3.config(font=('verdana',14))
 
-b = Button(Frame1, padx = 55, pady = 5,text="7", font = "lucida 10 bold",bg ="red")
-b.pack(side= LEFT,padx =5, pady = 3)
-b.bind("<Button-1>", click)
+btn_mul = Button(root,text='*',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_operator('*'))
+btn_mul.grid(row=3,column=3)
+btn_mul.config(font=('verdana',14))
 
-Frame1.pack()
+btn_clr = Button(root,text='C',bg='#00a65a',fg='white',width=5,height=2,command=lambda :clear())
+btn_clr.grid(row=4,column=0)
+btn_clr.config(font=('verdana',14))
 
+btn0 = Button(root,text='0',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_digit(0))
+btn0.grid(row=4,column=1)
+btn0.config(font=('verdana',14))
 
-Frame1 = Frame(root, bg = "grey")
-b = Button(Frame1, padx = 55, pady = 5,text="6", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
+btn_equals = Button(root,text='=',bg='#00a65a',fg='white',width=5,height=2,command=get_result)
+btn_equals.grid(row=4,column=2)
+btn_equals.config(font=('verdana',14))
 
-b = Button(Frame1, padx = 55, pady = 5,text="5", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 55, pady = 5,text="4", font = "lucida 10 bold",bg ="red")
-b.pack(side= LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-Frame1.pack()
-
-
-Frame1 = Frame(root, bg = "grey")
-b = Button(Frame1, padx = 55, pady = 5,text="3", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 55, pady = 5,text="2", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 55, pady = 5,text="1", font = "lucida 10 bold",bg ="red")
-b.pack(side= LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-Frame1.pack()
-
-
-Frame1 = Frame(root, bg = "grey")
-b = Button(Frame1, padx = 54, pady = 5,text="0", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 53, pady = 5,text="00", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 54, pady = 5,text="+", font = "lucida 10 bold",bg ="red")
-b.pack(side= LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-Frame1.pack()
-
-
-Frame1 = Frame(root, bg = "grey")
-b = Button(Frame1, padx = 56, pady = 5,text="-", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 56, pady = 5,text="*", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 55, pady = 5,text="/", font = "lucida 10 bold",bg ="red")
-b.pack(side= LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-Frame1.pack()
-
-Frame1 = Frame(root, bg = "grey")
-b = Button(Frame1, padx = 55, pady = 5,text="=", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 54, pady = 5,text="X", font = "lucida 10 bold",bg ="red")
-b.pack(side = LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-b = Button(Frame1, padx = 66, pady = 5,text="C", font = "lucida 10 bold",bg ="red")
-b.pack(side= LEFT,padx =5, pady = 5)
-b.bind("<Button-1>", click)
-
-# Frame1 = Frame(root, bg = "grey")
-# Frame1 = Frame(root, bg = "grey")
-# b = Button(Frame1, padx = 60, pady = 5,text="COPY", font = "lucida 10 bold", fg = "black")
-# b.pack(padx =120, pady = 120, fill= X)
-# b.bind("<Button-1>", click)
-
-
-def Help():
-    global status
-    sbar = msg.showinfo("Help",f"This is a Simple Calculator by KillerAdarsh")
-    sbar.pack()
-
-
-
-Button(root, text = "Help", command =Help).pack(side = BOTTOM, fill = X)
-
-
-
-
-Frame1.pack()
+btn_div = Button(root,text='/',bg='#00a65a',fg='white',width=5,height=2,command=lambda :get_operator('/'))
+btn_div.grid(row=4,column=3)
+btn_div.config(font=('verdana',14))
 
 root.mainloop()
